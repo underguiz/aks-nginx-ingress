@@ -1,0 +1,35 @@
+controller:
+  # service:
+  #   annotations:
+  #     service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+  resources:
+    limits:
+      cpu: 500m
+      memory: 256Mi
+    requests:
+      cpu: 500m
+      memory: 256Mi
+  autoscaling:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 50
+    targetMemoryUtilizationPercentage: 50
+  tolerations:
+   - key: "workload-type"
+     operator: "Equal"
+     value: "ingress"
+     effect: "NoSchedule"
+  nodeSelector:
+    agentpool: ingress
+  extraVolumes:
+      - name: secrets-store-inline
+        csi:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: "ingress-tls"
+  extraVolumeMounts:
+      - name: secrets-store-inline
+        mountPath: "/mnt/secrets-store"
+        readOnly: true
