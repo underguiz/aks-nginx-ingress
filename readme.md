@@ -54,12 +54,14 @@ $ kubectl apply -f app-ingress.yaml
 ### Test it using **curl**
 
 ```
-$ kubectl get ingress
-$ curl --insecure --resolve helloworld.nginx-ingress-demo.local:443:<ingress_external_ip_addres>
+$ INGRESS_IP_ADDRESS=$(kubectl get ingress helloworld-nginx-ingress-demo -o=jsonpath='{.status.loadBalancer.ingress[0].ip}')
+$ curl -v --insecure --resolve helloworld.nginx-ingress-demo.local:443:$INGRESS_IP_ADDRESS https://helloworld.nginx-ingress-demo.local
 ```
 
 Reference docs: 
 
 https://docs.microsoft.com/en-us/azure/aks/csi-secrets-store-nginx-tls
+
 https://kubernetes-csi.github.io/docs/
+
 https://github.com/kubernetes/ingress-nginx/blob/main/charts/ingress-nginx/values.yaml
