@@ -14,7 +14,7 @@ The goal of this repository is to show how to deploy an autoscalable [kubernetes
 $ az login
 $ cd terraform
 $ terraform plan -var 'ingress-controller-demo-rg=<resource_group_name>'
-$ terrafom apply -var 'ingress-controller-demo-rg=<resource_group_name>'
+$ terraform apply -var 'ingress-controller-demo-rg=<resource_group_name>'
 $ az aks get-credentials --name ingress-controller-demo --resource-group <resource_group_name>
 ```
 
